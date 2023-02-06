@@ -340,7 +340,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-SUBDIRS = lib
+SUBDIRS = lib include
 AM_CFLAGS = -I/usr/include/libxml2 \
 	-I./include
 

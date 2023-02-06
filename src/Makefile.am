@@ -1,7 +1,7 @@
 SUBDIRS = lib
 
 AM_CFLAGS = -I/usr/include/libxml2 \
-	-I./include
+	-I./lib
 
 DEFS = -DLOCALEDIR=\"$(localedir)\"
 

@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.71])
 AC_INIT([Samana Check WinRM], [1.0], [info@samanagroup.com])
-AC_CONFIG_SRCDIR([src/wr-get.c])
+AC_CONFIG_SRCDIR([src/check_wr_cpu.c])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE
