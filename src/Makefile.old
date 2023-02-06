@@ -1,0 +1,48 @@
+-include ../nagios-plugins/plugins/NP-VERSION-FILE
+CFLAGS=-g -I/usr/include/libxml2 -I./include -I./
+
+CFLAGS_NP+=-g -I../../nagios-plugins/gl\
+	-I../../nagios-plugins/plugins \
+	-I../../nagios-plugins \
+	-I../../nagios-plugins/lib \
+	-I./include \
+	-DNP_VERSION=\"$(NP_VERSION)\" \
+	-DLOCALEDIR=\"/usr/share/locale\"
+
+LDLIBS=-lgssapi_krb5 -lcrypto -lcurl -lxml2 -luuid
+
+LDLIBS_NP=../../nagios-plugins/plugins/libnpcommon.a \
+	../../nagios-plugins/lib/libnagiosplug.a \
+	../../nagios-plugins/gl/libgnu.a
+
+SOURCES=$(wildcard *.c)
+OBJECTS=./lib/protocol.o ./lib/transport.o ./lib/cimclass.o ./lib/xml.o
+
+HAVE_XML=-D_HAVE_XML -lxml2 -I/usr/include/libxml2
+HAVE_CURL=-D_HAVE_CURL -lcurl
+HAVE_GSS=-D_HAVE_GSS -lgssapi_krb5
+HAVE_CRYPTO=-D_HAVE_CRYPTO -lcrypto
+HAVE_UUID=-D_HAVE_UUID -luuid
+
+EXECS=sendmessage xml-test wr-get wr-enumerate \
+	wr-get-schema wr-get-timed wr-wql parse-xml \
+	parse-xml-example xml-example wr-get-errorschema \
+	wr-wql-getval wr-get-wmi-class
+
+CHECKS=check_wr_cpu check_wr_mem check_wr_pf check_wr_disk check_wr_uptime check_wr_log
+
+$(EXECS): $(OBJECTS)
+
+.PHONY: $(CHECKS)
+
+../lib/nagios.o: ./lib/nagios.c
+	$(CC) $(CFLAGS_NP) -c -o $@ $<
+
+$(CHECKS): ./lib/nagios.o $(OBJECTS)
+	$(CC) $(CFLAGS_NP) $(CFLAGS) -o $@ $@.c $^ $(LDLIBS) $(LDLIBS_NP)
+
+clean:
+	rm -f *.o ./lib/*.o sendmessage xml *.tmp  $(EXECS) $(CHECKS)
+
+clean-time:
+	rm -Rf time-test-*
