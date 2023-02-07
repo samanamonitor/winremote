@@ -37,6 +37,3 @@ sed -i -e '/default = default_sect/alegacy = legacy_sect\n' \
 # Create debian package
 Based on:
 https://www.debian.org/doc/manuals/debmake-doc/ch04.en.html
-```
-# 
-``` 
