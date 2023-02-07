@@ -18,5 +18,5 @@ ${TAB}dh_auto_configure -- --prefix=/usr/local/nagios
 EOF
 sed -i -e "s/^\(Depends.*\)/\1, gss-ntlmssp (>= 0.7.0)/" debian/control
 debuild
-cp ../samana-check-winrm_1.0-1_amd64.deb ${CURDIR}
+cp ${BUILDDEV}/samana-check-winrm_1.0-1_amd64.deb ${CURDIR}
 rm -Rf ${BUILDDEV}
