@@ -160,7 +160,7 @@ check_log (char *url)
 		goto end;
 	}
 
-	xasprintf(&wql, WQL_QUERY, TimeGenerated, 2, "Application");
+	xasprintf(&wql, WQL_QUERY, TimeGenerated, 2, logname);
 	wql_ctx = wr_wql_new(proto, namespace, wql);
 	free(wql);
 	if(wql_ctx == NULL) {
@@ -169,8 +169,8 @@ check_log (char *url)
 	}
 
 	if(!wr_wql_run(wql_ctx)) {
-	result = STATE_UNKNOWN;
-	goto end;
+		result = STATE_UNKNOWN;
+		goto end;
 	}
 
 	response = wr_wql_response_toxml(wql_ctx);
