@@ -4,6 +4,7 @@
 #include <libintl.h>
 #include <unistd.h>
 #include <getopt.h>
+#include "config.h"
 #include "nagios.h"
 
 extern const char *progname;
@@ -82,7 +83,7 @@ print_help (void)
     char *myport;
     xasprintf (&myport, "%d", WINR_DEF_PORT);
 
-    print_revision (progname, NP_VERSION);
+    print_revision (progname, VERSION);
 
     printf ("Copyright (c) 2022 Fabian Baena <info@samanagroup.com>\n");
 
@@ -150,7 +151,7 @@ process_arguments (int argc, char **argv)
         case '?':                                   /* help */
             usage5 ();
         case 'V':                                   /* version */
-            print_revision (progname, NP_VERSION);
+            print_revision (progname, VERSION);
             exit (STATE_OK);
         case 'h':                                   /* help */
             print_help ();
@@ -181,6 +182,12 @@ process_arguments (int argc, char **argv)
         case 'w':
             if (get_threshold (optarg, &warn) == ERROR)
                 usage2 (_("Warning threshold must be integer or percentage!"), optarg);
+            break;
+        case 'u':
+            username = optarg;
+            break;
+        case 'P':
+            password = optarg;
             break;
         }
     }
