@@ -802,11 +802,13 @@ wr_wql_run(void *w)
 
     if(!wr_enumerate(wql_ctx->protocol_ctx, 
             wql_ctx->resourceuri, NULL, wql_ctx->query, NULL)) {
+        fprintf(stderr, "Error - Unable to enumerate result.\n");
         result = 0;
         goto end;
     }
 
     if(!wr_pull_all(wql_ctx->protocol_ctx, wql_ctx->resourceuri)) {
+        fprintf(stderr, "Error - Unable to pull result.\n");
         result = 0;
         goto end;
     }
