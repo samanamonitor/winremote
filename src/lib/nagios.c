@@ -34,10 +34,19 @@ char *smn_perfdata (const char *label,
 {
     char *data, *temp;
 
-    if (strpbrk (label, "'= "))
-        xasprintf (&data, "'%s'=%ld%s;", label, val, uom);
-    else
-        xasprintf (&data, "%s=%ld%s;", label, val, uom);
+    char *newlabel = strdup(label);
+    for(char *p = newlabel; *p; p++) {
+        if(*p >= '0' && *p <= '9') continue;
+        if(*p >= 'A' && *p <= 'Z') {
+            *p |= 0x20;
+            continue;
+        }
+        if(*p >= 'a' && *p <= 'z') continue;
+        if(*p == '_') continue;
+            *p = '_';
+    }
+    xasprintf (&data, "%s=%ld%s;", newlabel, val, uom);
+    free(newlabel);
 
     if (warnp)
         xasprintf (&temp, "%s%ld;", data, warn);
