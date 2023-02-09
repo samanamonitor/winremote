@@ -55,19 +55,17 @@ int main(int argc, char const *argv[])
     for(int i=0; i<1; i++) {
         if(!wr_enumerate(ctx, resourceuri, filter, NULL, NULL)) {
             wr_response_to_buffer(ctx, buf, MAX_BUFFER_SIZE);
-            printf("%s\n", buf);
             result = 1;
             goto end;
         }
         wr_response_to_buffer(ctx, buf, MAX_BUFFER_SIZE);
-        printf("Server:\n%s\n", buf);
         if(!wr_pull_all(ctx, resourceuri)) {
             result = 1;
             goto end;
         }
         wr_pull_to_buffer(ctx, buf, MAX_BUFFER_SIZE);
 
-        printf("Server:\n%s\n", buf);
+        printf("%s", buf);
         result = 0;
     }
 
