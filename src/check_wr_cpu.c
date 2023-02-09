@@ -148,8 +148,10 @@ check_cpu (char *url)
 
 	if(PercentProcessorTime > crit) {
 		printf(_("CRITICAL"));
+		result = STATE_CRITICAL;
 	} else if(PercentProcessorTime > warn) {
 		printf(_("WARNING"));
+		result = STATE_WARNING;
 	} else {
 		printf(_("OK"));
 	}
@@ -157,7 +159,7 @@ check_cpu (char *url)
 
 	printf(_(" |"));
 
-	perfdata_str = smn_perfdata("Load", PercentProcessorTime, "",
+	perfdata_str = smn_perfdata("load", PercentProcessorTime, "",
 		(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
 		(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
 		1, 0, 1, 100);
@@ -169,7 +171,7 @@ check_cpu (char *url)
 		result = STATE_UNKNOWN;
 		goto end;
 	}
-	perfdata_str = smn_perfdata("PercentIdleTime", PercentIdleTime, "",
+	perfdata_str = smn_perfdata("idle_time_percent", PercentIdleTime, "",
 		0, 0, 0, 0, 1, 0, 1, 100);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
@@ -179,7 +181,7 @@ check_cpu (char *url)
 		result = STATE_UNKNOWN;
 		goto end;
 	}
-	perfdata_str = smn_perfdata("PercentUserTime", PercentUserTime, "",
+	perfdata_str = smn_perfdata("user_time_percent", PercentUserTime, "",
 		0, 0, 0, 0, 1, 0, 1, 100);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
@@ -189,7 +191,7 @@ check_cpu (char *url)
 		result = STATE_UNKNOWN;
 		goto end;
 	}
-	perfdata_str = smn_perfdata("PercentPrivilegedTime", PercentPrivilegedTime, "",
+	perfdata_str = smn_perfdata("privileged_time_percent", PercentPrivilegedTime, "",
 		0, 0, 0, 0, 1, 0, 1, 100);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
@@ -199,7 +201,7 @@ check_cpu (char *url)
 		result = STATE_UNKNOWN;
 		goto end;
 	}
-	perfdata_str = smn_perfdata("PercentInterruptTime", PercentInterruptTime, "",
+	perfdata_str = smn_perfdata("interrupt_time_percent", PercentInterruptTime, "",
 		0, 0, 0, 0, 1, 0, 1, 100);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
