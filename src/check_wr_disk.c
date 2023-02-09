@@ -206,12 +206,15 @@ check_disk (char *url)
 
 	printf(_(" | "));
 	for (int i = 0; i < nodes->nodeNr; i++) {
-		perfdata_str = smn_perfdata(disk_data[i].Disk_Caption,
+		char *label;
+		xasprintf(&label, "%sused_percent", disk_data[i].Disk_Caption);
+		perfdata_str = smn_perfdata(label,
 			disk_data[i].Disk_PercentUsed, "",
 	  		(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
 	  		(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
 	  		1, 0, 1, 100);
 		printf(_(" %s"), perfdata_str);
+		free(label);
 		free(perfdata_str);
 	}
 	printf(_("\n"));
