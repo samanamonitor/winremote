@@ -159,8 +159,10 @@ check_mem (char *url)
 
 	if(PercentMemoryUsed > crit) {
 		printf(_("CRITICAL"));
+		result = STATE_CRITICAL;
 	} else if(PercentMemoryUsed > warn) {
 		printf(_("WARNING"));
+		result = STATE_WARNING;
 	} else {
 		printf(_("OK"));
 	}
@@ -169,11 +171,28 @@ check_mem (char *url)
 	UsedPhysicalMemory / 1024, PercentMemoryUsed,
 	FreePhysicalMemory / 1024, PercentMemoryFree);
 
-	perfdata_str = smn_perfdata("PercentMemoryUsed", PercentMemoryUsed, "",
+	printf(_(" |"));
+
+	perfdata_str = smn_perfdata("used_percent", PercentMemoryUsed, "",
 		(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
 		(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
 		1, 0, 1, 100);
-	printf(_(" | %s"), perfdata_str);
+	printf(_(" %s"), perfdata_str);
+	free(perfdata_str);
+
+	perfdata_str = smn_perfdata("total", TotalVisibleMemorySize, "",
+		0, 0, 0, 0, 0, 0, 0, 0);
+	printf(_(" %s"), perfdata_str);
+	free(perfdata_str);
+
+	perfdata_str = smn_perfdata("used", UsedPhysicalMemory, "",
+		0, 0, 0, 0, 0, 0, 0, 0);
+	printf(_(" %s"), perfdata_str);
+	free(perfdata_str);
+
+	perfdata_str = smn_perfdata("free", FreePhysicalMemory, "",
+		0, 0, 0, 0, 0, 0, 0, 0);
+	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
 	printf(_("\n"));
 
