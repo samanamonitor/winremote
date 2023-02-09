@@ -95,6 +95,7 @@ check_uptime (char *url)
 	time_t BootUpHours = 0;
 	time_t tzh, tzm, LastBootUpTime_time;
 	time_t current_time;
+	char *perfdata_str;
 	char *p;
 
 	gettimeofday(&tv, NULL);
@@ -171,7 +172,18 @@ check_uptime (char *url)
 		printf(_("OK"));
 		result = STATE_OK;
 	}
-	printf(_(" - Uptime of server is %ld Hours\n"), BootUpHours);
+	printf(_(" - Uptime of server is %ld Hours"), BootUpHours);
+
+	printf(" | ");
+
+	perfdata_str = smn_perfdata("uptime", current_time - LastBootUpTime_time, "",
+		(warn != UNKNOWN_VALUE), warn,
+		(crit != UNKNOWN_VALUE), crit,
+		0, 0, 0, 0);
+	printf(_(" %s"), perfdata_str);
+	free(perfdata_str);
+
+	printf(_("\n"));
 
 	end:
 	if(nodes) xmlXPathFreeNodeSet(nodes);
