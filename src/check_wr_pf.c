@@ -199,8 +199,10 @@ check_pf (char *url)
 
 	if(TotalPercentCurrentUsage > crit) {
 		printf(_("CRITICAL"));
+		result = STATE_CRITICAL;
 	} else if(TotalPercentCurrentUsage > warn) {
 		printf(_("WARNING"));
+		result = STATE_WARNING;
 	} else {
 		printf(_("OK"));
 	}
@@ -208,7 +210,8 @@ check_pf (char *url)
 		TotalAllocatedSize, TotalCurrentUsage, TotalPercentCurrentUsage);
 
 	printf(_(" |"));
-	perfdata_str = smn_perfdata("Total_PercentageUsed", TotalPercentCurrentUsage, "",
+
+	perfdata_str = smn_perfdata("used_percent_total", TotalPercentCurrentUsage, "",
   		(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
   		(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
   		1, 0, 1, 100);
