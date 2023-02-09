@@ -202,7 +202,26 @@ check_service (char *url)
 		printf(_("OK"));
 	}
 
-	printf(_(" - Services running=%d stopped=%d\n"), running, stopped);
+	printf(_(" - Services running=%d stopped=%d"), running, stopped);
+
+	printf(_(" |"));
+
+	perfdata_str = smn_perfdata("stopped", stopped, "",
+		(warn != UNKNOWN_VALUE), warn,
+		(crit != UNKNOWN_VALUE), crit,
+		0, 0, 0, 0);
+	printf(_(" %s"), perfdata_str);
+	free(perfdata_str);
+
+	perfdata_str = smn_perfdata("running", running, "",
+		(warn != UNKNOWN_VALUE), warn,
+		(crit != UNKNOWN_VALUE), crit,
+		0, 0, 0, 0);
+	printf(_(" %s"), perfdata_str);
+	free(perfdata_str);
+
+	printf(_("\n"));
+
 	printf("%s", addl == NULL ? "" : addl);
 
 	end:
@@ -296,6 +315,12 @@ process_arguments_service (int argc, char **argv)
 		case 'w':
 			if (get_threshold (optarg, &warn) == ERROR)
 				usage2 (_("Warning threshold must be integer or percentage!"), optarg);
+			break;
+		case 'u':
+			username = optarg;
+			break;
+		case 'P':
+			password = optarg;
 			break;
 		case 'e':
 			exclude  = optarg;
