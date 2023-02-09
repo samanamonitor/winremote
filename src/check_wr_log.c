@@ -267,35 +267,35 @@ check_log (char *url)
 	printf(_(" - Error or Warning Events=%d"), ec.Total);
 
 	printf(_(" |"));
-	perfdata_str = smn_perfdata("Error",
+	perfdata_str = smn_perfdata("error",
 		ec.Error, "",
 		(warn != UNKNOWN_VALUE), warn,
 		(crit != UNKNOWN_VALUE), crit,
-		1, 0, 1, 100);
+		0, 0, 0, 0);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
 
-	perfdata_str = smn_perfdata("Warning",
+	perfdata_str = smn_perfdata("warning",
 		ec.Warning, "",
 		(warn != UNKNOWN_VALUE), warn,
 		(crit != UNKNOWN_VALUE), crit,
-  		1, 0, 1, 100);
+		0, 0, 0, 0);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
 
-	perfdata_str = smn_perfdata("AuditSuccess",
+	perfdata_str = smn_perfdata("audit_success",
 		ec.AuditSuccess, "",
 		(warn != UNKNOWN_VALUE), warn,
 		(crit != UNKNOWN_VALUE), crit,
-  		1, 0, 1, 100);
+		0, 0, 0, 0);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
 
-	perfdata_str = smn_perfdata("AuditFailures",
+	perfdata_str = smn_perfdata("audit_failure",
 		ec.AuditFailures, "",
-  		(warn != UNKNOWN_VALUE), warn,
-  		(crit != UNKNOWN_VALUE), crit,
-  		1, 0, 1, 100);
+		(warn != UNKNOWN_VALUE), warn,
+		(crit != UNKNOWN_VALUE), crit,
+		0, 0, 0, 0);
 	printf(_(" %s"), perfdata_str);
 	free(perfdata_str);
 
@@ -423,6 +423,12 @@ process_arguments_log (int argc, char **argv)
 		case 'w':
 			if (get_threshold (optarg, &warn) == ERROR)
 				usage2 (_("Warning threshold must be integer or percentage!"), optarg);
+			break;
+		case 'u':
+			username = optarg;
+			break;
+		case 'P':
+			password = optarg;
 			break;
 		case 'l':
 			logname = optarg;
