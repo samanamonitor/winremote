@@ -1,0 +1,3 @@
+override_dh_usrlocal:
+override_dh_auto_configure:
+	dh_auto_configure -- --prefix=%prefix% --sysconfdir=%sysconfdir% --libexecdir=%libexecdir% --with-nagios-plugins=%np_path%
