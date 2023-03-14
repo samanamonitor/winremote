@@ -18,6 +18,7 @@ extern char *password;
 extern char *url;
 extern int warn;
 extern int crit;
+extern int legacy;
 
 
 char *smn_perfdata (const char *label,
@@ -151,7 +152,7 @@ process_arguments (int argc, char **argv)
             strcpy (argv[c], "-t");
 
     while (1) {
-        c = getopt_long (argc, argv, "+Vhvt:H:p:u:P:c:w:", longopts, &option);
+        c = getopt_long (argc, argv, "+Vlhvt:H:p:u:P:c:w:", longopts, &option);
 
         if (c == -1 || c == EOF)
             break;
@@ -159,6 +160,9 @@ process_arguments (int argc, char **argv)
         switch (c) {
         case '?':                                   /* help */
             usage5 ();
+        case 'l':
+            legacy = 1;
+            break;
         case 'V':                                   /* version */
             print_revision (progname, VERSION);
             exit (STATE_OK);
