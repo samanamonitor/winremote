@@ -40,12 +40,13 @@ const char *email = "info@samanagroup.com";
 #define NS_URL "http://schemas.microsoft.com/wbem/wsman/1/wmi/" NAMESPACE "/" CHECK_CLASS_NAME
 #define WQL_QUERY "SELECT * FROM " CHECK_CLASS_NAME " WHERE TimeGenerated > '%s' and EventType <= %d and Logfile = '%s'"
 #define MAX_EVENTS_PRINT 10
-#define EXCEPTION_SEPARATOR ';'
+#define EXCEPTION_SEPARATOR '|'
 #define EXC_VALUE_SEPARATOR ','
 
 typedef struct _log_exception_set *log_exception_set_t;
 typedef struct _wmi_log *wmi_log_t;
 
+int legacy = 0;
 int port = -1;
 char *server_name = NULL;
 int verbose = FALSE;

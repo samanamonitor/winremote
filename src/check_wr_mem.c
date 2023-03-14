@@ -37,6 +37,7 @@ const char *email = "info@samanagroup.com";
 #define NS_URL "http://schemas.microsoft.com/wbem/wsman/1/wmi/" NAMESPACE "/" CHECK_CLASS_NAME
 #define WQL_QUERY "select * FROM " CHECK_CLASS_NAME "";
 
+int legacy = 0;
 int port = -1;
 char *server_name = NULL;
 int verbose = FALSE;
@@ -47,6 +48,7 @@ int warn = UNKNOWN_PERCENTAGE_USAGE;
 int crit = UNKNOWN_PERCENTAGE_USAGE;
 
 int check_mem (char *url);
+char *perfdata (const char *label, long int val, const char *uom, int warnp, long int warn, int critp, long int crit, int minp, long int minv, int maxp, long int maxv);
 
 int
 main (int argc, char **argv)
@@ -173,6 +175,24 @@ check_mem (char *url)
 
 	printf(_(" |"));
 
+	if (legacy == 1) {
+		perfdata_str = perfdata("Physical Memory Used", PercentMemoryUsed, "",
+			(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
+			(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
+			1, 0, 1, 100);
+		printf(_(" %s"), perfdata_str);
+		free(perfdata_str);
+
+		perfdata_str = perfdata("Physical Memory Utilization", PercentMemoryUsed, "",
+			(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
+			(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
+			1, 0, 1, 100);
+		printf(_(" %s"), perfdata_str);
+		free(perfdata_str);
+
+		printf("\n");
+		goto end;
+	}
 	perfdata_str = smn_perfdata("used_percent", PercentMemoryUsed, "",
 		(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
 		(crit != UNKNOWN_PERCENTAGE_USAGE), crit,

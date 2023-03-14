@@ -43,6 +43,7 @@ const char *email = "info@samanagroup.com";
 #define EXCEPTION_SEPARATOR ';'
 #define EXC_VALUE_SEPARATOR ','
 
+int legacy = 0;
 int port = -1;
 char *server_name = NULL;
 int verbose = FALSE;

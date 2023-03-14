@@ -40,6 +40,7 @@ const char *email = "info@samanagroup.com";
 #define NS_URL "http://schemas.microsoft.com/wbem/wsman/1/wmi/" NAMESPACE "/" CHECK_CLASS_NAME
 #define WQL_QUERY "select * FROM " CHECK_CLASS_NAME "";
 
+int legacy = 0;
 int port = -1;
 char *server_name = NULL;
 int verbose = FALSE;

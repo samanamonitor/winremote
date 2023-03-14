@@ -36,6 +36,7 @@ const char *email = "info@samanagroup.com";
 #define NS_URL "http://schemas.microsoft.com/wbem/wsman/1/wmi/" NAMESPACE "/" CHECK_CLASS_NAME
 #define WQL_QUERY "select * FROM " CHECK_CLASS_NAME " WHERE DriveType = 3"
 
+int legacy = 0;
 int port = -1;
 char *server_name = NULL;
 int verbose = FALSE;
@@ -46,10 +47,12 @@ int warn = UNKNOWN_PERCENTAGE_USAGE;
 int crit = UNKNOWN_PERCENTAGE_USAGE;
 
 int check_disk (char *url);
+char *perfdata (const char *label, long int val, const char *uom, int warnp, long int warn, int critp, long int crit, int minp, long int minv, int maxp, long int maxv);
 
 typedef struct _wmi_disk {
 	xmlNodePtr node;
 	char *Disk_Caption;
+	char *Disk_Name;
 	long Disk_FreeSpace;
 	long Disk_UsedSpace;
 	long Disk_Size;
@@ -175,6 +178,12 @@ check_disk (char *url)
 			goto end;
 		}
 
+		if(!xml_class_get_prop_string(&disk_data[i].Disk_Name,
+				disk_data[i].node, "Name", schema)) {
+			result = STATE_UNKNOWN;
+			goto end;
+		}
+
 		disk_data[i].Disk_UsedSpace = disk_data[i].Disk_Size - disk_data[i].Disk_FreeSpace;
 
 		if(disk_data[i].Disk_Size > 0) {
@@ -207,15 +216,25 @@ check_disk (char *url)
 	printf(_(" | "));
 	for (int i = 0; i < nodes->nodeNr; i++) {
 		char *label;
-		xasprintf(&label, "%sused_percent", disk_data[i].Disk_Caption);
-		perfdata_str = smn_perfdata(label,
-			disk_data[i].Disk_PercentUsed, "",
-	  		(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
-	  		(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
-	  		1, 0, 1, 100);
-		printf(_(" %s"), perfdata_str);
-		free(label);
-		free(perfdata_str);
+		if(legacy==1) {
+			perfdata_str = perfdata(disk_data[i].Disk_Name,
+				disk_data[i].Disk_PercentUsed, "",
+				(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
+				(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
+				1, 0, 1, 100);
+			printf(_(" %s"), perfdata_str);
+			free(perfdata_str);
+		} else {
+			xasprintf(&label, "%sused_percent", disk_data[i].Disk_Caption);
+			perfdata_str = smn_perfdata(label,
+				disk_data[i].Disk_PercentUsed, "",
+				(warn != UNKNOWN_PERCENTAGE_USAGE), warn,
+				(crit != UNKNOWN_PERCENTAGE_USAGE), crit,
+				1, 0, 1, 100);
+			printf(_(" %s"), perfdata_str);
+			free(label);
+			free(perfdata_str);
+		}
 	}
 	printf(_("\n"));
 
