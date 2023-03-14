@@ -1,3 +1,4 @@
+NP_PATH=@np_path@
 SUBDIRS = lib
 
 AM_CFLAGS = -I/usr/include/libxml2 \
