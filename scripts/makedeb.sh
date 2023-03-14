@@ -14,13 +14,19 @@ if [ ! -d ${NP_PATH} ]; then
     exit 1
 fi
 
+export NP_PATH
+export DEBEMAIL=info@samanagroup.com
+
+./configure
 make dist
 CURDIR=$(pwd)
 BUILDDEV=$(mktemp -d)
-cp samana-check-winrm-1.0.tar.gz ${BUILDDEV}
+DISTNAME=samana-check-winrm-1.0.0
+DISTFILE=${DISTNAME}.tar.gz
+cp ${DISTFILE} ${BUILDDEV}
 cd ${BUILDDEV}
-tar -xzvf samana-check-winrm-1.0.tar.gz
-cd samana-check-winrm-1.0
+tar -xzvf ${DISTFILE}
+cd ${DISTNAME}
 debmake
 cp scripts/configuressl.sh debian/postinst
 TAB=$(printf "\t")
@@ -28,9 +34,9 @@ cat <<EOF >> debian/rules
 export NP_PATH=${NP_PATH}
 override_dh_usrlocal:
 override_dh_auto_configure:
-${TAB}dh_auto_configure -- --prefix=/usr/local/nagios
+${TAB}dh_auto_configure -- --prefix=/usr/local/nagios --sysconfdir=/usr/local/nagios/etc --libexecdir=/usr/local/nagios/libexec
 EOF
 sed -i -e "s/^\(Depends.*\)/\1, gss-ntlmssp (>= 0.7.0)/" debian/control
 debuild
-cp ${BUILDDEV}/samana-check-winrm_1.0-1_amd64.deb ${CURDIR}
+cp ${BUILDDEV}/${DISTNAME}-1_amd64.deb ${CURDIR}
 rm -Rf ${BUILDDEV}
