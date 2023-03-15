@@ -1,6 +1,9 @@
 #!/bin/bash
 
-. /etc/os-release
+set -x
+git pull
+
+source /etc/os-release
 
 autoreconf --install
 automake
