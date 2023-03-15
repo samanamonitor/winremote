@@ -2,6 +2,8 @@
 
 . /etc/os-release
 
+autoreconf --install
+automake
 ./configure --with-nagios-plugins=${NP_PATH} \
     --prefix=/usr/local/nagios \
     --sysconfdir=/usr/local/nagios/etc \
