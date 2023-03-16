@@ -1,10 +1,10 @@
 #!/bin/bash
 
 set -x
-git pull
 
 source /etc/os-release
 
+git pull
 git checkout ${VERSION_CODENAME}
 
 autoreconf --install

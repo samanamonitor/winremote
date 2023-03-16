@@ -24,10 +24,10 @@ if [ -z "${DEST_PATH}" ]; then
     DEST_PATH=$(pwd)/${UBUNTU_VERSION}
 fi
 
-if [ -d ${DEST_PATH} ]; then
-    rm -Rf ${DEST_PATH}
+if [ ! -d ${DEST_PATH} ]; then
+    mkdir -p ${DEST_PATH}
 fi
-mkdir -p ${DEST_PATH}
+
 id=$(docker image ls -q winremote:${UBUNTU_VERSION})
 if [ -z "$id" ]; then
     docker build -t winremote:${UBUNTU_VERSION} --build-arg UBUNTU_VERSION=${UBUNTU_VERSION} .
