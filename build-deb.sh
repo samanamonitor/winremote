@@ -5,8 +5,9 @@ git pull
 
 source /etc/os-release
 
+git checkout ${VERSION_CODENAME}
+
 autoreconf --install
-automake
 ./configure --with-nagios-plugins=${NP_PATH} \
     --prefix=/usr/local/nagios \
     --sysconfdir=/usr/local/nagios/etc \
