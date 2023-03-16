@@ -28,7 +28,7 @@ if [ -d ${DEST_PATH} ]; then
     rm -Rf ${DEST_PATH}
 fi
 mkdir -p ${DEST_PATH}
-id=$(docker image ls -q winremote:bionic)
+id=$(docker image ls -q winremote:${UBUNTU_VERSION})
 if [ -z "$id" ]; then
     docker build -t winremote:${UBUNTU_VERSION} --build-arg UBUNTU_VERSION=${UBUNTU_VERSION} .
 fi
