@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([Samana Check WinRM], [1.0.0], [info@samanagroup.com])
+AC_INIT([Samana Check WinRM], [1.1.0], [info@samanagroup.com])
 
 AC_ARG_WITH(nagios-plugins,AC_HELP_STRING([--with-nagios-plugins=<path to nagios plugin source>],[sets the path to find nagios-plugins libraries]),np_path=$withval,[AC_MSG_ERROR(nagios-plugin path is mandatory)])
 AC_SUBST(np_path)
