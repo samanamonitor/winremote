@@ -18,13 +18,6 @@ apt install -y gcc make libxml2-dev libssl-dev \
     automake debhelper debmake
 ```
 
-# Compile
-Nagios Plu
-```
-NP_PATH=<path to nagios-plugins source code> ./configure
-make
-```
-
 # Packages needed to run
 * libxml2
 * libcurl4
@@ -51,7 +44,7 @@ make deb
 
 # Build in a container
 ```
-UBUNTU_VERSION=bionic
+UBUNTU_VERSION=<codename>
 NP_PATH=/usr/src/sources/samanamonitor/nagios-plugins
 ./create-package ${UBUNTU_VERSION} ${NP_PATH}
 ```
@@ -59,6 +52,8 @@ NP_PATH=/usr/src/sources/samanamonitor/nagios-plugins
 # Modify automake and autoconf
 When a modification to ```Makefile.am``` is done, the following commands must be executed:
 ```
-autoconf
-automake
+autoreconf
 ```
+
+# APT Repository instructions
+https://earthly.dev/blog/creating-and-hosting-your-own-deb-packages-and-apt-repo/
