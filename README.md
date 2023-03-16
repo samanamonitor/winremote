@@ -51,7 +51,7 @@ make deb
 
 # Build in a container
 ```
-UBUNTU_VERSION=bionic
+UBUNTU_VERSION=jammy
 NP_PATH=/usr/src/sources/samanamonitor/nagios-plugins
 ./create-package ${UBUNTU_VERSION} ${NP_PATH}
 ```
