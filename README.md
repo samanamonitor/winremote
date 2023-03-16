@@ -51,9 +51,9 @@ make deb
 
 # Build in a container
 ```
-UBUNTU_VERSION=jammy
-PATH_TO_SOURCE=/usr/src/sources/samanamonitor
-docker run -it --name plugin-dev --mount type=bind,source=${PATH_TO_SOURCE},target=/usr/src ubuntu:${UBUNTU_VERSION} /bin/bash
+UBUNTU_VERSION=bionic
+NP_PATH=/usr/src/sources/samanamonitor/nagios-plugins
+./create-package ${UBUNTU_VERSION} ${NP_PATH}
 ```
 
 # Modify automake and autoconf
