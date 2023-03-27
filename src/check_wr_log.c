@@ -559,13 +559,13 @@ process_exceptions(log_exception_set_t l, const char *e)
 int
 validate_arguments_log (void)
 {
-	if(username == NULL) {
+	if(username == NULL || strlen(username) == 0) {
 		username = getenv("WR_USERNAME");
 		if(username == NULL) {
 			return ERROR;
 		}
 	}
-	if(password == NULL) {
+	if(password == NULL || strlen(password) == 0) {
 		password = getenv("WR_PASSWORD");
 		if(password == NULL) {
 			return ERROR;

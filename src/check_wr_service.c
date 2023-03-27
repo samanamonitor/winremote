@@ -338,20 +338,20 @@ process_arguments_service (int argc, char **argv)
 int
 validate_arguments_service (void)
 {
-	if(username == NULL) {
+	if(username == NULL || strlen(username) == 0) {
 		username = getenv("WR_USERNAME");
 		if(username == NULL) {
 			return ERROR;
 		}
 	}
-	if(password == NULL) {
+	if(password == NULL || strlen(password) == 0) {
 		password = getenv("WR_PASSWORD");
 		if(password == NULL) {
 			return ERROR;
 		}
 	}
 
-	if (server_name == NULL)
+	if (server_name == NULL || strlen(server_name) == 0)
 		return ERROR;
 	if (port == -1)                             /* funky, but allows -p to override stray integer in args */
 		port = WINR_DEF_PORT;
