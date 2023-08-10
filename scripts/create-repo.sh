@@ -31,7 +31,7 @@ if [ "0" != "$?" ]; then
 fi
 
 
-DIST="bionic focal jammy"
+DIST="bionic"
 for d in ${DIST}; do
     mkdir -p apt-repo/pool/main/${d}
     mkdir -p apt-repo/dists/${d}/main/binary-amd64
@@ -45,7 +45,7 @@ Origin: Samana Monitor Repository
 Label: SAMM
 Suite: ${d}
 Codename: ${d}
-Version: 1.0
+Version: 1.0.0
 Architectures: amd64
 Components: main
 Description: SAMM Samana Advanced Monitoring and Management repository
